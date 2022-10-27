@@ -1,0 +1,13 @@
+ create table postac(id_postaci integer primary key not null, nazwa varchar(40), rodzaj enum('wiking','ptak','k integer unsigned);
+
+ insert into postac values('1','Bjorn','wiking', '1990-05-25','32');
+
+ insert into postac values('2','Drozd','ptak', '2000-05-15','22');
+
+ insert into postac values('3','Tesciowa','kobieta', '1970-05-10','52');
+
+ update postac set wiek='88' where nazwa='tesciowa';
+
+create table walizka(id_walizki integer primary key auto_increment, pojemnosc integer unsigned, kolor enum('rozowy','czerwony','teczowy','zolty'), id_wlasciciela integer, foreign key (id_wlasciciela) references postac(id_postaci) on delete cascade);
+
+ alter table walizka alter kolor set default 'rozowy';
