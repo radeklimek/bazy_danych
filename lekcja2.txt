@@ -1,0 +1,68 @@
+LEKCJA 2.
+
+Zadanie. 1
+SELECT * FROM postac WHERE rodzaj = 'wiking' ORDER BY wiek DESC;
+DELETE FROM postac WHERE wiek = 100;
+DELETE FROM postac WHERE wiek = 83;
+
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE postac MODIFY id_postaci INT NOT NULL;
+ALTER TABLE postac DROP PRIMARY KEY;
+
+Zadanie 2.
+ALTER TABLE postac ADD COLUMN pesel VARCHAR(11);
+UPDATE postac SET pesel='12345678911' WHERE id_postaci = 1;
+UPDATE postac SET pesel='00987654321' WHERE id_postaci = 2;
+UPDATE postac SET pesel='77654321908' WHERE id_postaci = 3;
+UPDATE postac SET pesel='54432109754' WHERE id_postaci = 4;
+UPDATE postac SET pesel='67328907222' WHERE id_postaci = 6;
+UPDATE postac SET pesel='77649271203' WHERE id_postaci = 7;
+ALTER TABLE postac ADD CONSTRAINT PRIMARY KEY(pesel);
+
+ALTER TABLE postac MODIFY rodzaj ENUM('kobieta','wiking','ptak','syrena');
+
+INSERT INTO postac VALUES
+('5','Gertruda Nieszczera','syrena','1985-06-30','37',NULL,NULL,'65445665456');
+
+Zadanie 3.
+UPDATE postac SET nazwa_statku = 'statek_1' WHERE nazwa LIKE '%a%';
+UPDATE statek SET max_ladownosc = max_ladownosc * 0.7
+WHERE data_wodowania BETWEEN '1901-01-01' AND '2000-12-31';
+SELECT IF(wiek > 1000,'tak','nie') FROM postac;
+
+Zadanie 4.
+ALTER TABLE postac MODIFY rodzaj ENUM('kobieta','wiking','ptak','syrena','waz');
+INSERT INTO postac VALUES
+('8','Loko','waz','1949-07-29','73',NULL,NULL,'22223332232');
+
+UPDATE postac SET nazwa_statku = NULL where nazwa = 'Tesciowa';
+
+CREATE TABLE marynarz(
+id_postaci INT NOT NULL,
+nazwa VARCHAR(40),
+rodzaj ENUM('kobieta','wiking','ptak','syrena','waz'),
+data_ur DATE,
+wiek INT UNSIGNED,
+funkcja VARCHAR(50),
+nazwa_statku VARCHAR(50),
+pesel VARCHAR(11) NOT NULL,
+FOREIGN KEY(pesel) REFERENCES postac(pesel) );
+
+INSERT INTO marynarz SELECT * FROM postac WHERE nazwa_statku IS NOT NULL;
+
+Zadanie 5.
+UPDATE marynarz SET nazwa_statku = NULL;
+UPDATE postac SET nazwa_statku = NULL;
+DELETE FROM marynarz WHERE pesel = '99099922255';
+DELETE FROM postac WHERE pesel = '99099922255';
+DELETE FROM statek WHERE nazwa_statku LIKE '%';
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
+DROP TABLE statek;
+
+CREATE TABLE zwierz AS SELECT * FROM postac;
+SELECT * FROM zwierz;
+DELETE FROM zwierz WHERE rodzaj = 'kobieta';
+DELETE FROM zwierz WHERE rodzaj = 'wiking';
+DELETE FROM zwierz WHERE rodzaj = 'syrena';
