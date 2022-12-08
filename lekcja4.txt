@@ -1,0 +1,15 @@
+Lekcja 4
+Zadanie 1.
+SELECT AVG(waga) FROM kreatura WHERE rodzaj = 'wiking';
+SELECT rodzaj, COUNT(rodzaj) AS ile_rodzaj, AVG(waga) FROM kreatura GROUP BY rodzaj;
+SELECT rodzaj, COUNT(rodzaj) AS ile_rodzaj, (SUM(2022 - YEAR(dataUr))) / COUNT(rodzaj) AS avg_wiek
+FROM kreatura GROUP BY rodzaj;
+
+Zadanie 2.
+SELECT rodzaj, COUNT(rodzaj), SUM(waga) FROM zasob WHERE rodzaj IS NOT NULL GROUP BY rodzaj;
+SELECT nazwa, COUNT(nazwa) AS ile_nazwa, SUM(waga * ilosc) AS waga_razem
+FROM zasob GROUP BY nazwa HAVING ile_nazwa > 3 AND waga_razem > 10;
+SELECT nazwa, ilosc, rodzaj FROM zasob WHERE rodzaj IS NOT NULL GROUP BY rodzaj HAVING ilosc > 1;
+
+Zadanie 3.
+SELECT idKreatury, idZasobu, ilosc, SUM(idZasobu * ilosc) FROM ekwipunek GROUP BY idKreatury;
